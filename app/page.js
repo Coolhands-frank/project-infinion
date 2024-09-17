@@ -4,7 +4,7 @@ import Link from 'next/link';
 
 export default function Home() {
   return (
-    <main className="px-20 py-10 w-full font-[family-name:var(--font-nunito)] flex flex-col">
+    <main className="px-20 py-10 w-full h-full font-[family-name:var(--font-nunito)] flex flex-col">
       <div className="flex justify-between items-center">
         <div className="font-[family-name:var(--font-work-sans)] text-customTeal font-bold text-2xl">
           <h1>Overview</h1>

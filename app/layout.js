@@ -40,7 +40,7 @@ export default function RootLayout({ children }) {
         className={`${workSans.variable} ${nunito.variable} antialiased flex`}
       >
         <SideNavbar />
-        <div className="w-full">
+        <div className="w-full flex flex-col">
           <TopBar />
           {children}
         </div>
