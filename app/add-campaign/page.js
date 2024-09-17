@@ -1,6 +1,7 @@
 "use client"
 import { useState } from 'react';
 import Link from 'next/link';
+import { addCampaign } from '../../components/api'
 
 export default function AddCampaign() {
     const [isSubmitting, setIsSubmitting] = useState(false);
@@ -57,29 +58,22 @@ export default function AddCampaign() {
         setIsSubmitting(true);
 
         try {
-        const response = await fetch('https://infinion-test-int-test.azurewebsites.net/api/Campaign', {
-            method: 'POST',
-            headers: {
-            'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(campaignData), // Send form data as JSON
-        });
+            const response = await addCampaign(campaignData)
+            const result = await response.json();
 
-        const result = await response.json();
-
-        if (response.ok) {
-            console.log('Item added:', result);
-            setCampaignData({ campaignName: '', campaignDescription: '', startDate: '', endDate: '', digestCampaign: false, linkedKeywords: [], dailyDigest: ''});
-            alert('Item successfully added!');
-        } else {
-            console.error('Error adding item:', result);
-            alert('Failed to add item.');
-        }
+            if (response.ok) {
+                console.log('Item added:', result);
+                setCampaignData({ campaignName: '', campaignDescription: '', startDate: '', endDate: '', digestCampaign: false, linkedKeywords: [], dailyDigest: ''});
+                alert('Item successfully added!');
+            } else {
+                console.error('Error adding item:', result);
+                alert(JSON.stringify(result));
+            }
         } catch (error) {
-        console.error('Request failed:', error);
-        alert('An error occurred. Please try again.');
+            console.error('Request failed:', error);
+            alert('An error occurred. Please try again.');
         } finally {
-        setIsSubmitting(false);
+            setIsSubmitting(false);
         }
     };
 

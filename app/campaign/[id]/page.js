@@ -17,14 +17,13 @@ export default function CampaignDetails() {
     const [isDeleteClicked, setIsDeleteClicked] = useState(false);
     
     const [campaignData, setCampaignData] = useState({
-        id: "",
-        campaignName: "",
-        campaignDescription: "",
-        startDate: "",
-        endDate: "",
-        digestCampaign: false,
-        linkedKeywords: [],
-        dailyDigest: "",
+            campaignName: "",
+            campaignDescription: "",
+            startDate: "",
+            endDate: "",
+            digestCampaign: false,
+            linkedKeywords: [],
+            dailyDigest: "",   
     });
 
     useEffect(() => {
@@ -34,7 +33,6 @@ export default function CampaignDetails() {
                 const data = await fetchCampaignData(id)
                 setCampaignDetail(data)
                 setCampaignData({
-                    id: data.id,
                     campaignName: data.campaignName,
                     campaignDescription: data.campaignDescription,
                     startDate: data.startDate,
@@ -107,10 +105,12 @@ export default function CampaignDetails() {
             body: JSON.stringify(campaignData),
           });
 
+          const result = await response.json();
+
           if (response.ok) {
             alert('Campaign updated successfully');
           } else {
-            alert('Failed to update campaign ');
+            alert(result.status);
           }
         } catch (error) {
             alert(error)

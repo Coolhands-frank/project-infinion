@@ -27,17 +27,17 @@ export async function fetchCampaignData(id) {
     return campaignInformation;
 }
 
-//export async function addCampaign(campaignData) {
-  //  const response = await fetch('https://infinion-test-int-test.azurewebsites.net/api/Campaign', {
-    //    method: 'POST',
-      //  headers: {
-        //'Content-Type': 'application/json',
- //       },
-   //     body: JSON.stringify(campaignData), // Send form data as JSON
-  //  });
-  //  const data = response
- //   return data
-//}
+export async function addCampaign(campaignData) {
+    const response = await fetch('https://infinion-test-int-test.azurewebsites.net/api/Campaign', {
+        method: 'POST',
+        headers: {
+        'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(campaignData), // Send form data as JSON
+    });
+    const data = response
+    return data
+}
 
 export async function deleteCampaign(id) {
     const response = await fetch(`https://infinion-test-int-test.azurewebsites.net/api/Campaign/${id}`, {
