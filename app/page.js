@@ -35,7 +35,7 @@ export default function Home() {
 
       <div className="flex flex-col h-full justify-center items-center text-sm font-semibold">
         <Image 
-          src={"/vector.png"}
+          src={"/Vector.png"}
           width={426}
           height={290}
           alt=""
