@@ -39,6 +39,18 @@ export async function addCampaign(campaignData) {
     return data
 }
 
+export async function editCampaign(campaignData, id) {
+    const response = await fetch(`https://infinion-test-int-test.azurewebsites.net/api/Campaign/${id}`, {
+        method: 'PUT',
+        headers: {
+        'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(campaignData), // Send form data as JSON
+    });
+    const data = response
+    return data
+}
+
 export async function deleteCampaign(id) {
     const response = await fetch(`https://infinion-test-int-test.azurewebsites.net/api/Campaign/${id}`, {
         method: 'DELETE',

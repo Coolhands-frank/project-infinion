@@ -57,7 +57,7 @@ export default function Campaigns(){
                 <p className="w-1/5">{campaign.id}</p>
                 <p className="w-2/5">{campaign.campaignName}</p>
                 <p className="w-1/5">{campaign.startDay}/{campaign.startMonth}/{campaign.startYear}</p>
-                <p className="w-1/5 text-center">{campaign.campaignStatus}</p>
+                <p className={`${campaign.campaignStatus == "Active" ? "text-green-500":"text-red-500"} font-semibold w-1/5 text-center`}>{campaign.campaignStatus}</p>
                 <div className="w-1/5 flex justify-end items-center">
                     <div>
                         <Link href={`/campaign/${campaign.id}`}>
@@ -99,7 +99,6 @@ export default function Campaigns(){
         )
     }
 
-    {/*if (loading) return <p className="text-black">Loading...</p>; */}
     if (error) return <p className="text-black">Error: {error}</p>;
 
     return (

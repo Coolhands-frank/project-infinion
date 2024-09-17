@@ -6,6 +6,7 @@ import { useParams } from "next/navigation";
 import { useRouter } from "next/navigation";
 import { fetchCampaignData } from "../../../components/api"
 import { deleteCampaign } from "../../../components/api"
+import { editCampaign } from "../../../components/api";
 
 
 export default function CampaignDetails() {
@@ -99,14 +100,7 @@ export default function CampaignDetails() {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-          const response = await fetch(`https://infinion-test-int-test.azurewebsites.net/api/Campaign/${id}`, {
-            method: 'PUT',
-            headers: {
-              'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(campaignData),
-          });
-          
+          const response = await editCampaign(campaignData, id)
           const result = await response.text();
           const status = result
 
@@ -161,7 +155,9 @@ export default function CampaignDetails() {
                     </h1>
                     <div className="flex items-center p-2 bg-backgroundTeal">
                         <div className="border-r-2 px-2">Campaign Status</div>
-                        <p></p>
+                        <p className= {`${campaignDetail.campaignStatus == "Active" ? "text-green-500":"text-red-500"} px-2 font-medium`}>
+                            {campaignDetail.campaignStatus}
+                        </p>
                     </div>
                 </div>
                 
