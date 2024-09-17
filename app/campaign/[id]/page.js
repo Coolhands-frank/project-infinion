@@ -17,6 +17,7 @@ export default function CampaignDetails() {
     const [isDeleteClicked, setIsDeleteClicked] = useState(false);
     
     const [campaignData, setCampaignData] = useState({
+            id: null,
             campaignName: "",
             campaignDescription: "",
             startDate: "",
@@ -33,6 +34,7 @@ export default function CampaignDetails() {
                 const data = await fetchCampaignData(id)
                 setCampaignDetail(data)
                 setCampaignData({
+                    id: id,
                     campaignName: data.campaignName,
                     campaignDescription: data.campaignDescription,
                     startDate: data.startDate,
@@ -104,13 +106,14 @@ export default function CampaignDetails() {
             },
             body: JSON.stringify(campaignData),
           });
-
-          const result = await response.json();
+          
+          const result = await response.text();
+          const status = result
 
           if (response.ok) {
             alert('Campaign updated successfully');
           } else {
-            alert(result.status);
+            alert(status);
           }
         } catch (error) {
             alert(error)
