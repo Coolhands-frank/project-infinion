@@ -1,6 +1,6 @@
 import Image from "next/image"
 
-export default function() {
+export default function TopBar() {
     return (
         <main className="border-b-2 flex justify-between items-center w-full px-20 py-6 font-[family-name:var(--font-nunito)]">
             <input type="text" placeholder="Search for anything..." className="border px-3 text-xs font-medium py-2.5 w-96"/>
