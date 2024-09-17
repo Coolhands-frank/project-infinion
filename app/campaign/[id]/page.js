@@ -1,18 +1,20 @@
 "use client"
 import Link from "next/link"
 import Image from "next/image"
-import { useEffect, useState } from 'react';
-import { useParams } from 'next/navigation';
-import { useRouter } from 'next/navigation';
+import { useEffect, useState } from "react";
+import { useParams } from "next/navigation";
+import { useRouter } from "next/navigation";
+import { fetchCampaignData } from "../../../components/api"
+import { deleteCampaign } from "../../../components/api"
 
 
-export default function campaignDetail() {
+export default function CampaignDetails() {
     const redirect = useRouter()
     const router = useParams();
     const { id } = router; // Get the dynamic ID from the route
     const [campaignDetail, setCampaignDetail] = useState(null);
     const [linkedKeywordsInput, setLinkedKeywordsInput] = useState('');
-    const [isModalOpen, setIsModalOpen] = useState(false);
+    const [isDeleteClicked, setIsDeleteClicked] = useState(false);
     
     const [campaignData, setCampaignData] = useState({
         id: "",
@@ -27,37 +29,36 @@ export default function campaignDetail() {
 
     useEffect(() => {
         if (id) {
-          async function fetchCampaignData() {
+          async function loadCampaign() {
             try {
-              const response = await fetch(`https://infinion-test-int-test.azurewebsites.net/api/Campaign/${id}`); 
-              const result = await response.json();
-              setCampaignDetail(result);
-              setCampaignData({
-                id: result.id,
-                campaignName: result.campaignName,
-                campaignDescription: result.campaignDescription,
-                startDate: result.startDate,
-                endDate: result.endDate,
-                digestCampaign: result.digestCampaign,
-                linkedKeywords: result.linkedKeywords || [],
-                dailyDigest: result.dailyDigest,
-              });
+                const data = await fetchCampaignData(id)
+                setCampaignDetail(data)
+                setCampaignData({
+                    id: data.id,
+                    campaignName: data.campaignName,
+                    campaignDescription: data.campaignDescription,
+                    startDate: data.startDate,
+                    endDate: data.endDate,
+                    digestCampaign: data.digestCampaign,
+                    linkedKeywords: data.linkedKeywords || [],
+                    dailyDigest: data.dailyDigest,
+                });
             } catch (error) {
               console.error('Error fetching campaign data:', error);
             }
         }
     
-        fetchCampaignData();
+        loadCampaign();
         }
     }, [id]);
 
-    // Function to toggle the modal visibility
-    const handleOpenModal = () => {
-        setIsModalOpen(true);
+    // Function to toggle the 
+    const handleIsDeleteClicked = () => {
+        setIsDeleteClicked(true);
     };
 
-    const handleCloseModal = () => {
-        setIsModalOpen(false);
+    const handleCloseIsDeleteClicked = () => {
+        setIsDeleteClicked(false);
     };
 
     const handleSubscriptionToggle = () => {
@@ -120,16 +121,13 @@ export default function campaignDetail() {
     // Function to handle delete action
     const handleDelete = async (id) => {
         try {
-        const response = await fetch(`https://infinion-test-int-test.azurewebsites.net/api/Campaign/${id}`, {
-            method: 'DELETE',
-        });
-
-        if (response.ok) {
-            alert('Campaign deleted successfully');
-            redirect.push("/campaign")
-        } else {
-            alert('Failed to delete campaign');
-        }
+            const response = await deleteCampaign(id)
+            if (response.ok) {
+                alert('Campaign deleted successfully');
+                redirect.push("/campaign")
+            } else {
+                alert('Failed to delete campaign');
+            }
         } catch (error) {
         console.error('Error deleting campaign:', error);
         }
@@ -287,7 +285,9 @@ export default function campaignDetail() {
                     </div>
 
                     <div className="mt-10 flex font-semibold space-x-5">
-                        <div onClick={handleOpenModal} className="py-2.5 cursor-pointer w-48 bg-red-800 rounded text-gray-200 text-center">Stop Campaign</div>
+                        <div onClick={handleIsDeleteClicked} className="py-2.5 cursor-pointer w-48 bg-red-800 rounded text-gray-200 text-center">
+                            Stop Campaign
+                        </div>
                         <button 
                         type="submit" 
                         className="py-2.5 w-48 border border-customTeal text-customTeal rounded text-center" 
@@ -298,7 +298,7 @@ export default function campaignDetail() {
                 </form>
             </div>
 
-            {isModalOpen && (
+            {isDeleteClicked && (
                 <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
                 <div className="px-16 py-20 bg-white p-8 rounded-lg shadow-md text-center text-gray-600">
                     <h2 className="pb-4 text-xl font-bold mb-4 border-b-2 text-gray-800">Stop Campaign</h2>
@@ -309,7 +309,7 @@ export default function campaignDetail() {
                     <div className="flex space-x-4 justify-center text-xs">
                         <div
                             className="px-4 py-2 w-32 border border-black text-black rounded hover:bg-gray-300"
-                            onClick={handleCloseModal}
+                            onClick={handleCloseIsDeleteClicked}
                         >
                             Cancel
                         </div>

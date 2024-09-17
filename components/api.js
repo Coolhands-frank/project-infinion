@@ -19,3 +19,29 @@ export async function getCampaign(){
         throw new Error("API response is not an array");
     } 
 }
+
+export async function fetchCampaignData(id) {
+    const response = await fetch(`https://infinion-test-int-test.azurewebsites.net/api/Campaign/${id}`); 
+    const result = await response.json();
+    const campaignInformation = result
+    return campaignInformation;
+}
+
+//export async function addCampaign(campaignData) {
+  //  const response = await fetch('https://infinion-test-int-test.azurewebsites.net/api/Campaign', {
+    //    method: 'POST',
+      //  headers: {
+        //'Content-Type': 'application/json',
+ //       },
+   //     body: JSON.stringify(campaignData), // Send form data as JSON
+  //  });
+  //  const data = response
+ //   return data
+//}
+
+export async function deleteCampaign(id) {
+    const response = await fetch(`https://infinion-test-int-test.azurewebsites.net/api/Campaign/${id}`, {
+        method: 'DELETE',
+    });
+    return response
+}

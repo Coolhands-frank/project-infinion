@@ -14,7 +14,7 @@ export default function Campaigns(){
     useEffect(() => {
         try {
             getCampaign()
-                .then(data => setCampaignData(data))
+                .then(result => setCampaignData(result))
                 .finally(() => setLoading(false))
 
         } catch (error) {
