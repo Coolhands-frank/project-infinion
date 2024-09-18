@@ -2,10 +2,12 @@
 import { useState } from 'react';
 import Link from 'next/link';
 import { addCampaign } from '../../components/api'
+import Image from 'next/image';
 
 export default function AddCampaign() {
     const [isSubmitting, setIsSubmitting] = useState(false);
     const [linkedKeywordsInput, setLinkedKeywordsInput] = useState('');
+    const [isCampaignAdded, setIsCampaignAdded] = useState(false)
 
     const [campaignData, setCampaignData] = useState({
         campaignName: "",
@@ -28,6 +30,15 @@ export default function AddCampaign() {
           ...prevData,
           digestCampaign: !prevData.digestCampaign,
         }));
+    };
+
+    // Function to toggle isCreated
+    const handleAddCampaignSuccess = () => {
+        setIsCampaignAdded(true);
+    };
+
+    const handleCloseAddCampaignSuccess = () => {
+        setIsCampaignAdded(false);
     };
 
     // Handle Enter key press to add a keyword to the array
@@ -64,7 +75,7 @@ export default function AddCampaign() {
             if (response.ok) {
                 console.log('Item added:', result);
                 setCampaignData({ campaignName: '', campaignDescription: '', startDate: '', endDate: '', digestCampaign: false, linkedKeywords: [], dailyDigest: ''});
-                alert('Item successfully added!');
+                handleAddCampaignSuccess()
             } else {
                 console.error('Error adding item:', result);
                 alert(JSON.stringify(result));
@@ -214,6 +225,35 @@ export default function AddCampaign() {
                     </div>
                 </form>
             </div>
+
+            {isCampaignAdded && (
+                <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
+                    <div className="flex flex-col items-center text-center px-20 py-24 bg-white p-8 rounded-lg shadow-md text-center text-gray-600">
+                        <div className="w-20 flex justify-center item-center bg-green-600 rounded-full p-5">
+                            <Image 
+                                src={"/good.png"}
+                                width={50}
+                                height={50}
+                                alt=""
+                            /> 
+                        </div>
+
+                        <div className="my-12">
+                            <p>Campaign Successfully Created!</p>
+                        </div>
+            
+                        <Link href="/campaign">
+                            <button
+                                className="px-8 py-4 text-gray-100 rounded bg-green-600 hover:bg-green-400"
+                                onClick={handleCloseAddCampaignSuccess}
+                            >
+                                Go back to campaign list
+                            </button>
+                        </Link>
+                        
+                    </div>
+                </div>
+            )}
         </main>
     )
 }

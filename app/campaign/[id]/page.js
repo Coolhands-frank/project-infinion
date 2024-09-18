@@ -3,19 +3,19 @@ import Link from "next/link"
 import Image from "next/image"
 import { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
-import { useRouter } from "next/navigation";
 import { fetchCampaignData } from "../../../components/api"
 import { deleteCampaign } from "../../../components/api"
 import { editCampaign } from "../../../components/api";
 
 
 export default function CampaignDetails() {
-    const redirect = useRouter()
     const router = useParams();
-    const { id } = router; // Get the dynamic ID from the route
+    const { id } = router; // Gets the dynamic ID from the route
     const [campaignDetail, setCampaignDetail] = useState(null);
     const [linkedKeywordsInput, setLinkedKeywordsInput] = useState('');
     const [isDeleteClicked, setIsDeleteClicked] = useState(false);
+    const [isDeleted, setIsDeleted] = useState(false)
+    const [isEditClicked, setIsEditClicked] = useState(false);
     
     const [campaignData, setCampaignData] = useState({
             id: null,
@@ -53,13 +53,31 @@ export default function CampaignDetails() {
         }
     }, [id]);
 
-    // Function to toggle the 
+    // Function to toggle isDeleteClicked
     const handleIsDeleteClicked = () => {
         setIsDeleteClicked(true);
     };
 
     const handleCloseIsDeleteClicked = () => {
         setIsDeleteClicked(false);
+    };
+
+    // Function to toggle isDeleted
+    const handleIsDeleted = () => {
+        setIsDeleted(true);
+    };
+
+    const handleCloseIsDeleted = () => {
+        setIsDeleted(false);
+    };
+
+    // Function to toggle isEditClicked
+    const handleIsEditClicked = () => {
+        setIsEditClicked(true);
+    };
+
+    const handleCloseIsEditClicked = () => {
+        setIsEditClicked(false);
     };
 
     const handleSubscriptionToggle = () => {
@@ -105,7 +123,7 @@ export default function CampaignDetails() {
           const status = result
 
           if (response.ok) {
-            alert('Campaign updated successfully');
+            handleIsEditClicked()
           } else {
             alert(status);
           }
@@ -117,11 +135,12 @@ export default function CampaignDetails() {
 
     // Function to handle delete action
     const handleDelete = async (id) => {
+        setIsDeleteClicked(false)
+
         try {
             const response = await deleteCampaign(id)
             if (response.ok) {
-                alert('Campaign deleted successfully');
-                redirect.push("/campaign")
+                handleIsDeleted()
             } else {
                 alert('Failed to delete campaign');
             }
@@ -321,6 +340,59 @@ export default function CampaignDetails() {
                         </button>
                     </div>
                 </div>
+                </div>
+            )}
+
+            {isDeleted && (
+                <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
+                    <div className="flex flex-col items-center text-center px-20 py-24 bg-white p-8 rounded-lg shadow-md text-center text-gray-600">
+                        <div className="text-gray-900 py-4 font-bold text-base border-b-2 w-full">
+                            Campaign Deleted
+                        </div>
+
+                        <div className="my-12 text-gray-600">
+                            <p>{campaignDetail.campaignName} campaign has been Deleted!</p>
+                        </div>
+            
+                        <Link href="/campaign">
+                            <button
+                                className="px-8 py-4 text-gray-100 rounded bg-green-600 hover:bg-green-400"
+                                onClick={handleCloseIsDeleted}
+                            >
+                                Go back to campaign list
+                            </button>
+                        </Link>
+                        
+                    </div>
+                </div>
+            )}
+
+            {isEditClicked && (
+                <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50">
+                    <div className="flex flex-col items-center text-center px-20 py-24 bg-white p-8 rounded-lg shadow-md text-center text-gray-600">
+                        <div className="w-20 flex justify-center item-center bg-green-600 rounded-full p-5">
+                            <Image 
+                                src={"/good.png"}
+                                width={50}
+                                height={50}
+                                alt=""
+                            /> 
+                        </div>
+
+                        <div className="my-12">
+                            <p>Campaign Successfully Edited!</p>
+                        </div>
+            
+                        <Link href="/campaign">
+                            <button
+                                className="px-8 py-4 text-gray-100 rounded bg-green-600 hover:bg-green-400"
+                                onClick={handleCloseIsEditClicked}
+                            >
+                                Go back to campaign list
+                            </button>
+                        </Link>
+                        
+                    </div>
                 </div>
             )}
         </main>

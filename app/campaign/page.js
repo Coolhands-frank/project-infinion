@@ -10,6 +10,8 @@ export default function Campaigns(){
     const [error, setError] = useState(null);
     const [currentPage, setCurrentPage] = useState(1);
     const itemsPerPage = 10;
+    const activeCampaign = []
+    const inactiveCampaign = []
 
     useEffect(() => {
         try {
@@ -24,6 +26,19 @@ export default function Campaigns(){
         }
          
     }, []);
+
+    // this function add inactive and active campaigns to their respective array
+    function statusCount() {
+        const updateStatusArr = campaignData.map((campaign) => {
+            if (campaign.campaignStatus == 'Active'){
+                activeCampaign.push(campaign.campaignStatus)
+            } else {
+                inactiveCampaign.push(campaign.campaignStatus)
+            }
+        })
+        return updateStatusArr  
+    }
+    statusCount()
 
     // Get the current items for the current page
     const indexOfLastItem = currentPage * itemsPerPage;
@@ -107,9 +122,9 @@ export default function Campaigns(){
 
             <div className="flex justify-between items-center my-8">
                 <div className="text-customTeal text-sm font-medium flex space-x-4">
-                    <div className="py-2.5 px-1.5 border border-customTeal rounded">All (90)</div>
-                    <div className="py-2.5 px-1.5 border border-customTeal rounded">Inactive (90)</div>
-                    <div className="py-2.5 px-1.5 border border-customTeal rounded">Active (90)</div>
+                    <div className="py-2.5 px-1.5 border border-customTeal rounded">All ({campaignData.length})</div>
+                    <div className="py-2.5 px-1.5 border border-customTeal rounded">Inactive ({inactiveCampaign.length})</div>
+                    <div className="py-2.5 px-1.5 border border-customTeal rounded">Active ({activeCampaign.length})</div>
                 </div>
                 <div>
                     <div className="border rounded-sm text-xs flex items-center py-3 px-2.5">
