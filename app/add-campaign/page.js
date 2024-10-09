@@ -93,7 +93,7 @@ export default function AddCampaign() {
             <div className="px-20 py-11 font-[family-name:var(--font-nunito)] font-medium text-sm text-gray-600">
                 <h1 className="mb-6 text-xl font-[family-name:var(--font-work-sans)] font-bold text-customTeal">Create New Campaign</h1>
                 
-                <form className="w-4/5" onSubmit={handleSubmit}>
+                <form className="w-full lg:w-4/5" onSubmit={handleSubmit}>
                     <div className="space-y-4">
                         <div className="flex flex-col">
                             <label htmlFor="campaignName" className="mb-1">

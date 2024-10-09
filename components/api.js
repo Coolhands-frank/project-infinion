@@ -40,12 +40,24 @@ export async function addCampaign(campaignData) {
 }
 
 export async function editCampaign(campaignData, id) {
+    const [startDay, startMonth, startYear] = campaignData.startDate.split('/');
+    const formalStartDate = `${startYear}-${startMonth}-${startDay}`;
+
+    const [endDay, endMonth, endYear] = campaignData.endDate.split('/');
+    const formalEndDate = `${endYear}-${endMonth}-${endDay}`;
+
+    const updatedCampaignData = {
+        ...campaignData,
+        startDate: formalStartDate,
+        endDate: formalEndDate,
+    }
+
     const response = await fetch(`https://infinion-test-int-test.azurewebsites.net/api/Campaign/${id}`, {
         method: 'PUT',
         headers: {
         'Content-Type': 'application/json',
         },
-        body: JSON.stringify(campaignData), // Send form data as JSON
+        body: JSON.stringify(updatedCampaignData), // Send form data as JSON
     });
     const data = response
     return data

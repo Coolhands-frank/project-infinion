@@ -13,7 +13,7 @@ export default function Sidebar() {
 
     return (
         <main>
-            <div className="h-full w-80 flex flex-col items-center py-8 bg-backgroundTeal">
+            <div className="h-full w-80 flex flex-col items-center py-6 bg-backgroundTeal">
                 <div className="font-[family-name:var(--font-nunito)] flex items-center text-sm font-medium">
                     <div>
                         <Image 
@@ -24,11 +24,13 @@ export default function Sidebar() {
                             className="mr-4"
                         />
                     </div>
-                    <div className="font-[family-name:var(--font-work-sans)] text-4xl font-bold" style={{background: "linear-gradient(99deg, #247B7B 2.54%, #3B247B 101.29%)", backgroundClip: "text", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent"}}>Scrutz</div>
+                    <div className="font-[family-name:var(--font-work-sans)] text-4xl font-bold" style={{background: "linear-gradient(99deg, #247B7B 2.54%, #3B247B 101.29%)", backgroundClip: "text", WebkitBackgroundClip: "text", WebkitTextFillColor: "transparent"}}>
+                        Scrutz
+                    </div>
                 </div>
 
                 <Link href="/add-campaign">
-                <div className="rounded-md bg-customTeal py-2 px-8 flex items-center mt-16 mb-10">
+                <div className="rounded-md bg-customTeal py-2 px-8 flex items-center mt-14 mb-10">
                         <Image 
                             src={"/add.png"}
                             width={20}
@@ -42,7 +44,7 @@ export default function Sidebar() {
                 </Link>
 
                 <div>
-                    <ul className="space-y-6 text-lightTeal">
+                    <ul className="space-y-4 text-lightTeal">
                         
                         <li className={`${pathname === "/" ? 'bg-white text-customTeal' : ''} hover:text-customTeal py-2 px-6`}>
                             <Link className="flex items-center" href="/">
@@ -97,7 +99,7 @@ export default function Sidebar() {
                     </ul>
                 </div>
 
-                <div className="flex flex-col w-56 items-center text-lightTeal text-xs bg-white p-6 mt-20">
+                <div className="flex flex-col w-56 items-center text-lightTeal text-xs bg-white p-6 mt-14">
                     <Image
                         src={"/question.png"}
                         width={24}
@@ -109,7 +111,7 @@ export default function Sidebar() {
                         <p>We are readily available to provide help</p>
                     </div>
                     
-                    <div className="mt-4 px-6 py-2 border border-gray-700 rounded-md">Get Help</div>
+                    <div className="mt-2 px-6 py-2 border border-gray-700 rounded-md">Get Help</div>
                 </div>
             </div>
         </main>

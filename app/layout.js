@@ -37,12 +37,14 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <body
-        className={`${workSans.variable} ${nunito.variable} antialiased flex`}
+        className={`${workSans.variable} ${nunito.variable} antialiased flex h-screen`}
       >
         <SideNavbar />
         <div className="w-full flex flex-col">
           <TopBar />
-          {children}
+          <main className="overflow-auto h-screen">
+            {children}
+          </main>
         </div>
         
       </body>

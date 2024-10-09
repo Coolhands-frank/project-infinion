@@ -28,18 +28,35 @@ export default function CampaignDetails() {
             dailyDigest: "",   
     });
 
+    // Function to convert YYYY-MM-DD to DD/MM/YYYY
+ //   function formatDateToLocal(dateString) {
+ //       const date = new Date(dateString);
+ //   
+ //       // Format the date to the user's locale, but force DD/MM/YYYY format
+ //       const options = { day: '2-digit', month: '2-digit', year: 'numeric' };
+ //   
+ //       return new Intl.DateTimeFormat('en-GB', options).format(date); // en-GB for DD/MM/YYYY format
+ //   }
+
     useEffect(() => {
         if (id) {
           async function loadCampaign() {
             try {
                 const data = await fetchCampaignData(id)
                 setCampaignDetail(data)
+                const startDate = new Date(data.startDate)
+                const formattedStartDate = startDate.toLocaleDateString('en-GB') // Converts to 'dd/mm/yyyy'
+                const endDate = new Date(data.endDate)
+                const formattedEndDate = endDate.toLocaleDateString('en-GB')
+
+                data.digestCampaign == 'No' ? data.digestCampaign = false : data.digestCampaign = true
+
                 setCampaignData({
                     id: id,
                     campaignName: data.campaignName,
                     campaignDescription: data.campaignDescription,
-                    startDate: data.startDate,
-                    endDate: data.endDate,
+                    startDate: formattedStartDate,
+                    endDate: formattedEndDate,
                     digestCampaign: data.digestCampaign,
                     linkedKeywords: data.linkedKeywords || [],
                     dailyDigest: data.dailyDigest,
@@ -168,7 +185,7 @@ export default function CampaignDetails() {
                             <p>Back</p>
                     </div>
                 </Link>
-                <div className="flex justify-between items-center mb-4 w-4/5">
+                <div className="flex justify-between items-center mb-4 w-full lg:w-4/5">
                     <h1 className="text-xl font-[family-name:var(--font-work-sans)] font-bold text-customTeal">
                         Campaign Information
                     </h1>
@@ -180,7 +197,7 @@ export default function CampaignDetails() {
                     </div>
                 </div>
                 
-                <form className="w-4/5" onSubmit={handleSubmit}>
+                <form className="w-full lg:w-4/5" onSubmit={handleSubmit}>
                     <div className="space-y-4">
                         <div className="flex flex-col">
                             <label htmlFor="campaignName" className="mb-1">
@@ -293,6 +310,7 @@ export default function CampaignDetails() {
                                 value={campaignData.dailyDigest}
                                 onChange={handleInputChange}
                                 className="p-2.5 border rounded"
+                                disabled={!campaignData.digestCampaign}
                             >
                                 <option value="" disabled>Select</option>
                                 <option value="daily">Daily</option>
